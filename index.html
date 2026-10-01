@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VVAN — барбершоп в Санкт-Петербурге</title>
+  <meta name="description" content="VVAN — минималистичный барбершоп в Санкт-Петербурге. Мужские стрижки, моделирование бороды, стрижка под машинку. Точность, стиль и честная цена. Онлайн-запись 24×7.">
+  <meta name="theme-color" content="#F0EFEB">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="VVAN — барбершоп в Санкт-Петербурге">
+  <meta property="og:description" content="Современная мужская эстетика. Стрижки, борода, уход. Онлайн-запись за 10 минут.">
+  <meta property="og:locale" content="ru_RU">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="style" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/fonts.css">
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+  <!-- Иконки -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-arrow" viewBox="0 0 16 16">
+      <path d="M4.5 11.5 11.5 4.5M11.5 4.5H5.7M11.5 4.5v5.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+    </symbol>
+    <symbol id="i-chevron" viewBox="0 0 16 16">
+      <path d="m3.5 6 4.5 4.5L12.5 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="square"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 20 20">
+      <path d="M10 18s6-5.2 6-9.6A6 6 0 0 0 4 8.4C4 12.8 10 18 10 18Z" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="10" cy="8.4" r="2.2" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    </symbol>
+    <symbol id="i-instagram" viewBox="0 0 20 20">
+      <rect x="3" y="3" width="14" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="10" cy="10" r="3.4" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="14.2" cy="5.8" r="1" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 16 16">
+      <path d="m3 8.5 3.5 3.5L13 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+    </symbol>
+  </svg>
+
+  <!-- ===== Header ===== -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a class="logo" href="#top" aria-label="VVAN — на главную">VVAN</a>
+
+      <nav class="nav" id="nav" aria-label="Основная навигация">
+        <a class="nav__link" href="#about">О нас</a>
+        <a class="nav__link" href="#services">Услуги</a>
+        <a class="nav__link" href="#masters">Мастера</a>
+        <a class="nav__link" href="#contacts">Контакты</a>
+      </nav>
+
+      <a class="btn btn--dark header__cta" href="#booking">
+        <span>ОНЛАЙН-ЗАПИСЬ</span>
+        <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+      </a>
+
+      <button class="burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню -->
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav class="mobile-menu__nav" aria-label="Мобильная навигация">
+      <a class="mobile-menu__link" href="#about"><span>01</span>О нас</a>
+      <a class="mobile-menu__link" href="#services"><span>02</span>Услуги</a>
+      <a class="mobile-menu__link" href="#masters"><span>03</span>Мастера</a>
+      <a class="mobile-menu__link" href="#contacts"><span>04</span>Контакты</a>
+    </nav>
+    <a class="btn btn--dark mobile-menu__cta" href="#booking">
+      <span>ОНЛАЙН-ЗАПИСЬ</span>
+      <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+    </a>
+    <p class="mobile-menu__foot">САНКТ-ПЕТЕРБУРГ · EST. 2024</p>
+  </div>
+
+  <main id="top">
+
+    <!-- ===== Hero ===== -->
+    <section class="hero" aria-label="Главный экран">
+      <div class="hero__media" id="heroMedia">
+        <img class="hero__slide is-active" src="public/images/hero-1.jpg" alt="Барбершоп VVAN: мастер стрижёт клиента у зеркала" fetchpriority="high" width="1600" height="734">
+        <img class="hero__slide" src="public/images/hero-2.jpg" alt="Рабочее место барбера VVAN" width="1600" height="734">
+        <img class="hero__slide" src="public/images/hero-3.jpg" alt="Процесс стрижки в VVAN" width="1600" height="734">
+        <img class="hero__slide" src="public/images/hero-4.jpg" alt="Интерьер барбершопа VVAN" width="1600" height="734">
+        <img class="hero__slide" src="public/images/hero-5.jpg" alt="Мастер VVAN за работой" width="1600" height="734">
+      </div>
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <div class="hero__top">
+          <span class="micro">БАРБЕРШОП / САНКТ-ПЕТЕРБУРГ</span>
+          <span class="micro">EST. 2024</span>
+        </div>
+
+        <div class="hero__bottom">
+          <h1 class="hero__title">Современная<br>мужская<br>эстетика</h1>
+          <button class="hero__counter" id="heroCounter" type="button" aria-label="Показать следующий слайд">
+            <span id="heroCurrent">01</span><span class="hero__counter-sep">—</span><span id="heroTotal">05</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 01 О нас ===== -->
+    <section class="section about" id="about" data-nav="about">
+      <div class="container">
+        <div class="about__grid reveal">
+          <div class="about__aside">
+            <span class="tag">01&nbsp;&nbsp;/&nbsp;&nbsp;О НАС</span>
+            <p class="about__note">Стиль. Точность. Характер.</p>
+          </div>
+          <div class="about__body">
+            <p class="about__text">VVAN — минималистичный барбершоп для тех, кто ценит стиль, лаконичность и безупречное качество.</p>
+            <hr class="rule">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 02 Услуги и цены ===== -->
+    <section class="section section--dark services" id="services" data-nav="services">
+      <div class="container">
+        <p class="tag tag--light reveal"><span class="tag__n">02</span>УСЛУГИ И ЦЕНЫ</p>
+
+        <div class="services__grid">
+          <h2 class="display services__title reveal">Чёткая<br>форма.<br>Честная<br>цена.</h2>
+
+          <div class="services__list reveal">
+            <a class="service" href="#booking" data-service="Мужская стрижка">
+              <span class="service__num">01</span>
+              <span class="service__main">
+                <span class="service__name">Мужская стрижка</span>
+                <span class="service__meta">Консультация, мытьё, укладка · 60 мин</span>
+              </span>
+              <span class="service__price">1900&#8381;</span>
+              <span class="service__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+            </a>
+
+            <a class="service" href="#booking" data-service="Моделирование бороды">
+              <span class="service__num">02</span>
+              <span class="service__main">
+                <span class="service__name">Моделирование бороды</span>
+                <span class="service__meta">Опасная бритва, горячее полотенце · 45 мин</span>
+              </span>
+              <span class="service__price">1400</span>
+              <span class="service__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+            </a>
+
+            <a class="service" href="#booking" data-service="Стрижка под машинку">
+              <span class="service__num">03</span>
+              <span class="service__main">
+                <span class="service__name">Стрижка под машинку</span>
+                <span class="service__meta">Форма, контур, уход · 35 мин</span>
+              </span>
+              <span class="service__price">1000</span>
+              <span class="service__arrow"><svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 03 Мастера ===== -->
+    <section class="section masters" id="masters" data-nav="masters">
+      <div class="container">
+        <p class="tag reveal"><span class="tag__n">03</span>КОМАНДА</p>
+
+        <div class="masters__head">
+          <h2 class="display reveal">Мастера,<br>которым<br>доверяют</h2>
+          <p class="masters__lead reveal">Точность ремесла и личный подход.<br>Выберите мастера под свой стиль.</p>
+        </div>
+
+        <div class="masters__grid">
+          <a class="master reveal" href="#booking" data-master="Иван">
+            <span class="master__photo">
+              <img src="public/images/master-ivan.jpg" alt="Барбер Иван рядом с креслом" loading="lazy" width="1312" height="1100">
+            </span>
+            <span class="rule"></span>
+            <span class="master__row">
+              <span class="master__name">Иван</span>
+              <span class="master__exp">ОПЫТ 8 ЛЕТ</span>
+            </span>
+            <span class="master__spec">Fade, Классика</span>
+          </a>
+
+          <a class="master reveal master--offset" href="#booking" data-master="Андрей">
+            <span class="master__photo">
+              <img src="public/images/master-andrey.jpg" alt="Барбер Андрей у зеркала" loading="lazy" width="1312" height="1100">
+            </span>
+            <span class="rule"></span>
+            <span class="master__row">
+              <span class="master__name">Андрей</span>
+              <span class="master__exp">ОПЫТ 6 ЛЕТ</span>
+            </span>
+            <span class="master__spec">Борода, Стрижка</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 04 Контакты ===== -->
+    <section class="section contacts" id="contacts" data-nav="contacts">
+      <div class="container">
+        <p class="tag reveal"><span class="tag__n">04</span>КОНТАКТЫ</p>
+
+        <div class="contacts__grid">
+          <h2 class="display reveal">Заходите.<br>Будем<br>знакомы.</h2>
+
+          <div class="contacts__cards">
+            <a class="contact reveal" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB.%20%D0%A2%D0%B8%D0%BF%D0%B0%D0%BD%D0%BE%D0%B2%D0%B0%2023%20%D1%81%D1%82%D1%80.%201" target="_blank" rel="noopener noreferrer">
+              <span class="contact__top">
+                <span class="tag">АДРЕС</span>
+                <svg class="icon" aria-hidden="true"><use href="#i-pin"></use></svg>
+              </span>
+              <span class="contact__value">СПб, ул. Типанова 23 стр. 1</span>
+            </a>
+
+            <a class="contact reveal" href="https://instagram.com/vvan.barbershop" target="_blank" rel="noopener noreferrer">
+              <span class="contact__top">
+                <span class="tag">INSTAGRAM</span>
+                <svg class="icon" aria-hidden="true"><use href="#i-instagram"></use></svg>
+              </span>
+              <span class="contact__value">@vvan.barbershop</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Онлайн-запись ===== -->
+    <section class="booking" id="booking">
+      <div class="booking__visual">
+        <img src="public/images/tools.jpg" alt="" loading="lazy" width="1000" height="1050">
+        <span class="booking__overlay" aria-hidden="true"></span>
+        <div class="booking__visual-content">
+          <p class="tag tag--light">ОНЛАЙН-ЗАПИСЬ / 24×7</p>
+          <h2 class="display booking__title">Ваше время.<br>Ваш стиль.</h2>
+          <p class="booking__text">Оставьте контакты — подтвердим запись в WhatsApp в течение 10 минут.</p>
+        </div>
+      </div>
+
+      <div class="booking__panel">
+        <form class="form" id="bookingForm" novalidate>
+          <div class="form__grid">
+
+            <div class="field">
+              <label class="field__label" for="f-name">ИМЯ</label>
+              <input class="input" id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name">
+              <span class="field__error" data-error-for="name"></span>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="f-phone">ТЕЛЕФОН</label>
+              <input class="input" id="f-phone" name="phone" type="tel" inputmode="numeric" placeholder="+7 999 000-00-00" autocomplete="tel">
+              <span class="field__error" data-error-for="phone"></span>
+            </div>
+
+            <div class="field">
+              <span class="field__label" id="lbl-service">УСЛУГА</span>
+              <button class="select" id="f-service" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-service">
+                <span class="select__value is-placeholder">Выбрать услугу</span>
+                <svg class="icon select__chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+              </button>
+              <ul class="select__menu" role="listbox" aria-labelledby="lbl-service" hidden>
+                <li role="option" tabindex="-1" data-value="Мужская стрижка">Мужская стрижка</li>
+                <li role="option" tabindex="-1" data-value="Моделирование бороды">Моделирование бороды</li>
+                <li role="option" tabindex="-1" data-value="Стрижка под машинку">Стрижка под машинку</li>
+              </ul>
+              <span class="field__error" data-error-for="service"></span>
+            </div>
+
+            <div class="field">
+              <span class="field__label" id="lbl-master">МАСТЕР</span>
+              <button class="select" id="f-master" type="button" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="lbl-master">
+                <span class="select__value is-placeholder">Любой мастер</span>
+                <svg class="icon select__chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+              </button>
+              <ul class="select__menu" role="listbox" aria-labelledby="lbl-master" hidden>
+                <li role="option" tabindex="-1" data-value="">Любой мастер</li>
+                <li role="option" tabindex="-1" data-value="Иван">Иван</li>
+                <li role="option" tabindex="-1" data-value="Андрей">Андрей</li>
+              </ul>
+              <span class="field__error" data-error-for="master"></span>
+            </div>
+
+            <div class="field field--full">
+              <span class="field__label" id="lbl-datetime">ДАТА И ВРЕМЯ</span>
+              <button class="select" id="f-datetime" type="button" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="lbl-datetime">
+                <span class="select__value is-placeholder">Выберите удобное время</span>
+                <svg class="icon select__chevron" aria-hidden="true"><use href="#i-chevron"></use></svg>
+              </button>
+
+              <div class="datetime" id="datetimePanel" role="dialog" aria-label="Выбор даты и времени" hidden>
+                <div class="datetime__head">
+                  <span class="datetime__title">БЛИЖАЙШИЕ 14 ДНЕЙ</span>
+                  <span class="datetime__title" id="dtMonth"></span>
+                </div>
+                <div class="datetime__days" id="dtDays"></div>
+                <div class="datetime__head">
+                  <span class="datetime__title">ВРЕМЯ · 10:00 — 21:00</span>
+                </div>
+                <div class="datetime__slots" id="dtSlots"></div>
+              </div>
+
+              <span class="field__error" data-error-for="datetime"></span>
+            </div>
+
+          </div>
+
+          <div class="form__success" id="formSuccess" hidden>
+            <svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>
+            <p>Спасибо! Подтвердим запись в WhatsApp в течение 10 минут</p>
+          </div>
+
+          <div class="form__footer">
+            <p class="form__note">Нажимая кнопку, вы соглашаетесь с <a href="#privacy" id="privacyLink">политикой обработки персональных данных</a>.</p>
+            <button class="btn btn--light" id="submitBtn" type="submit">
+              <span id="submitLabel">ЗАПИСАТЬСЯ</span>
+              <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <hr class="rule rule--light">
+      <div class="footer__row">
+        <span class="footer__logo">VVAN</span>
+        <span class="footer__copy">© 2026 VVAN BARBERSHOP</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>

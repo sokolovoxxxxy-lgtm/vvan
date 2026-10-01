@@ -1,0 +1,6 @@
+# локальные артефакты — не публикуются
+shots/
+logs/
+.env
+_preview.html
+*.log
