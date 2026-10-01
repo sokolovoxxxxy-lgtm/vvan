@@ -67,7 +67,7 @@ function New-Placeholder([string]$name, [int]$w, [int]$h, [string]$tone) {
 
 Write-Output "Генерация заглушек в $ImagesDir"
 for ($i = 1; $i -le 5; $i++) { New-Placeholder "hero-$i.jpg" 1600 734 'dark' }
-New-Placeholder 'master-ivan.jpg'  1312 1100 'light'
-New-Placeholder 'master-andrey.jpg' 1312 1100 'light'
+New-Placeholder 'master-irina.jpg'    1312 1100 'light'
+New-Placeholder 'master-ekaterina.jpg' 1312 1100 'light'
 New-Placeholder 'tools.jpg'         1000 1050 'dark'
 Write-Output "Готово."
