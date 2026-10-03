@@ -136,7 +136,13 @@ try {
       $res.Close()
     }
   }
+} catch {
+  # диагностика: без этого блока падение сервера происходило молча (только баннер в журнале)
+  Write-Host ("[fatal] " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss") + " " + $_.Exception.GetType().FullName + ": " + $_.Exception.Message)
+  try { Write-Host ("[fatal] pos: " + $_.InvocationInfo.PositionMessage) } catch {}
+  exit 3
 } finally {
+  Write-Host ("[server] stopped " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
   $listener.Stop()
   $listener.Close()
 }
