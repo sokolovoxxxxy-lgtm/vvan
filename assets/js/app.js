@@ -132,14 +132,20 @@
   function nextSlide() { showSlide(slideIndex + 1); }
   function prevSlide() { showSlide(slideIndex - 1); }
 
-  var mediaEl = $('#heroMedia');
   var heroEl = $('.hero');
 
-  /* десктоп: клик по изображению — следующий слайд */
-  if (mediaEl && !staticMode) {
-    mediaEl.addEventListener('click', function (e) {
+  /* десктоп: клик по блоку — следующий слайд.
+     Обработчик вешаем на весь .hero, А НЕ на #heroMedia: поверх фото
+     лежат .hero__shade и .hero__inner (pointer-events:auto), клик по ним
+     до медиа-элемента не доходил и слайд не листался. */
+  if (heroEl && !staticMode) {
+    heroEl.addEventListener('click', function (e) {
       var t = e.target;
-      if (t && t.closest && t.closest('a, button')) return; /* не ломаем клики по ссылкам/кнопкам */
+      /* не ломаем клики по ссылкам/кнопкам/полям */
+      if (t && t.closest && t.closest('a, button, input, label, select, textarea')) return;
+      /* выделили текст мышью — не листаем */
+      var sel = window.getSelection ? String(window.getSelection()) : '';
+      if (sel) return;
       nextSlide();
     });
   }
