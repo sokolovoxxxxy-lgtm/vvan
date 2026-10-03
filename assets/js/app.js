@@ -116,53 +116,56 @@
 
   /* ---------------------------------------------------------
      5. Слайдер hero
+     Переключение вручную:
+       • десктоп — клик по фото (следующий слайд)
+       • тач-устройства — свайп влево (следующий) / вправо (предыдущий)
+     Автопрокрутка отключена.
      --------------------------------------------------------- */
   var slides = $$('.hero__slide');
-  var counterBtn = $('#heroCounter');
-  var currentEl = $('#heroCurrent');
-  var totalEl = $('#heroTotal');
   var slideIndex = 0;
-  var slideTimer = null;
-  var SLIDE_MS = 5000;
-
-  if (totalEl) totalEl.textContent = String(slides.length).padStart(2, '0');
 
   function showSlide(i) {
     if (!slides.length) return;
     slideIndex = (i + slides.length) % slides.length;
     slides.forEach(function (s, k) { s.classList.toggle('is-active', k === slideIndex); });
-    if (currentEl) currentEl.textContent = String(slideIndex + 1).padStart(2, '0');
   }
   function nextSlide() { showSlide(slideIndex + 1); }
-  function startSlider() {
-    stopSlider();
-    if (slides.length < 2) return;
-    slideTimer = window.setInterval(nextSlide, SLIDE_MS);
-  }
-  function stopSlider() {
-    if (slideTimer) { clearInterval(slideTimer); slideTimer = null; }
-  }
-  function restartSlider() { startSlider(); }
+  function prevSlide() { showSlide(slideIndex - 1); }
 
-  if (counterBtn) {
-    counterBtn.addEventListener('click', function () { nextSlide(); restartSlider(); });
-  }
+  var mediaEl = $('#heroMedia');
   var heroEl = $('.hero');
-  if (heroEl) {
+
+  /* десктоп: клик по изображению — следующий слайд */
+  if (mediaEl && !staticMode) {
+    mediaEl.addEventListener('click', function (e) {
+      var t = e.target;
+      if (t && t.closest && t.closest('a, button')) return; /* не ломаем клики по ссылкам/кнопкам */
+      nextSlide();
+    });
+  }
+
+  /* мобайл: горизонтальный свайп */
+  if (heroEl && !staticMode) {
     var touchX = null;
-    heroEl.addEventListener('touchstart', function (e) { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    var touchY = null;
+    heroEl.addEventListener('touchstart', function (e) {
+      touchX = e.changedTouches[0].clientX;
+      touchY = e.changedTouches[0].clientY;
+    }, { passive: true });
     heroEl.addEventListener('touchend', function (e) {
       if (touchX === null) return;
       var dx = e.changedTouches[0].clientX - touchX;
-      if (Math.abs(dx) > 48) { nextSlide(); restartSlider(); }
+      var dy = e.changedTouches[0].clientY - touchY;
       touchX = null;
+      touchY = null;
+      /* листаем только если сдвиг по горизонтали больше порога
+         и больше вертикального — вертикальный скролл страницы не трогаем */
+      if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy)) return;
+      if (dx < 0) nextSlide(); else prevSlide();
     }, { passive: true });
   }
-  document.addEventListener('visibilitychange', function () {
-    document.hidden ? stopSlider() : startSlider();
-  });
+
   showSlide(0);
-  if (!staticMode) startSlider();
 
   /* ---------------------------------------------------------
      6. Кастомные селекты (услуга / мастер)
