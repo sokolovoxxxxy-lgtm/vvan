@@ -72,6 +72,8 @@ try {
     $req = $ctx.Request
     $res = $ctx.Response
     $path = [Uri]::UnescapeDataString($req.Url.AbsolutePath)
+    # HEAD: заголовки отправляем, тело — нет (иначе HttpListener бросает исключение и в журнале появляется [error])
+    $isHead = ($req.HttpMethod -eq "HEAD")
 
     try {
       # ---------- API ----------
@@ -101,12 +103,14 @@ try {
         }
         $res.StatusCode = $r.Code
         $res.ContentType = $r.Type
-        $res.OutputStream.Write($r.Body, 0, $r.Body.Length)
+        if ($isHead) { $res.ContentLength64 = $r.Body.Length }
+        else { $res.OutputStream.Write($r.Body, 0, $r.Body.Length) }
       }
       elseif ($path -eq "/api/booking" -and $req.HttpMethod -ne "POST") {
         $r = Write-Json @{ ok = $false; error = "Только POST" } 405
         $res.StatusCode = $r.Code; $res.ContentType = $r.Type
-        $res.OutputStream.Write($r.Body, 0, $r.Body.Length)
+        if ($isHead) { $res.ContentLength64 = $r.Body.Length }
+        else { $res.OutputStream.Write($r.Body, 0, $r.Body.Length) }
       }
       else {
         # ---------- статика ----------
@@ -121,12 +125,14 @@ try {
           $ext = [IO.Path]::GetExtension($full).ToLower()
           $res.StatusCode = 200
           $res.ContentType = $(if ($mime.ContainsKey($ext)) { $mime[$ext] } else { "application/octet-stream" })
-          $res.OutputStream.Write($bytes, 0, $bytes.Length)
+          $res.ContentLength64 = $bytes.Length
+          if (-not $isHead) { $res.OutputStream.Write($bytes, 0, $bytes.Length) }
         } else {
           $res.StatusCode = 404
           $msg = [Text.Encoding]::UTF8.GetBytes("404 Not Found")
           $res.ContentType = "text/plain; charset=utf-8"
-          $res.OutputStream.Write($msg, 0, $msg.Length)
+          $res.ContentLength64 = $msg.Length
+          if (-not $isHead) { $res.OutputStream.Write($msg, 0, $msg.Length) }
         }
       }
     } catch {
