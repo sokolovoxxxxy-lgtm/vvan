@@ -20,7 +20,9 @@ vvan/
 │   └── js/app.js           # слайдер, меню, селекты, календарь, валидация, отправка
 ├── public/images/          # фото (сейчас — ч/б заглушки)
 ├── fonts/                  # 12 woff2, локальные шрифты
-├── server.ps1              # статический сервер + mock API /api/booking
+├── server.cs               # нативный dev-сервер (C#) — основной
+├── vvan-server.exe         # его сборка (не в git, см. .gitignore)
+├── server.ps1              # тот же сервер на PowerShell — запасной
 ├── .env.example            # переменные для Telegram-уведомлений
 └── shots/                  # скриншоты для приёмки
 ```
@@ -29,12 +31,36 @@ vvan/
 
 ## Запуск локально
 
+Основной способ — **нативный exe** (PowerShell-процессы в этой среде убивают через 2–5 минут,
+этот — нет):
+
 ```powershell
 cd "C:\Users\User\Desktop\сбор в кейс\vvan"
+
+# сборка (нужна только при изменении server.cs):
+& "C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe" /nologo /target:winexe `
+  /optimize+ /out:vvan-server.exe /r:System.Web.Extensions.dll server.cs
+
+# запуск:
+.\vvan-server.exe 8080
+```
+
+Запасной вариант с той же функциональностью и логами:
+
+```powershell
 powershell -ExecutionPolicy Bypass -File .\server.ps1 -Port 8080
 ```
 
 Открыть <http://localhost:8080>
+
+**Логи** (папка `logs/`, не попадает в git):
+
+| Файл | Что внутри |
+|---|---|
+| `server-console.log` | диагностика: баннер, `[fatal]`, `[error]`, `[booking]` |
+| `server-heartbeat.log` | метка времени каждые 60 с; обрезается при старте. **Если меток нет — процесс убили** |
+| `booking-YYYY-MM-DD.log` | заявки из формы |
+| `server.pid` | PID текущего сервера (`Stop-Process -Id (Get-Content logs\server.pid)`) |
 
 Форма записи отправляет `POST /api/booking`; ответ пишется в `logs/booking-YYYY-MM-DD.log`.
 Если API недоступно (например, файлы открыты напрямую через `file://`), форма переходит

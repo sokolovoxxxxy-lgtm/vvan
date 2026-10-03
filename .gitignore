@@ -4,3 +4,4 @@ logs/
 .env
 _preview.html
 *.log
+vvan-server.exe

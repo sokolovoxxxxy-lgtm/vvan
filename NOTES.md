@@ -11,7 +11,7 @@
 | **Прод-сайт** | https://sokolovoxxxxy-lgtm.github.io/vvan/ |
 | **Репозиторий** | https://github.com/sokolovoxxxxy-lgtm/vvan (public, ветка `main`) |
 | GitHub-аккаунт | `sokolovoxxxxy-lgtm`, вход через `gh` (keyring), scopes: gist, read:org, repo |
-| Локальный сервер | http://localhost:8080 — **СЕРВЕР ОСТАНОВЛЕН**, перезапустить: `powershell -ExecutionPolicy Bypass -File .\server.ps1 -Port 8080` |
+| Локальный сервер | http://localhost:8080 — **нативный `vvan-server.exe`** (PID в `logs/server.pid`), стоп: `Stop-Process -Id (Get-Content logs\server.pid)`. Запасной: `powershell -ExecutionPolicy Bypass -File .\server.ps1 -Port 8080`. Сборка: `csc /nologo /target:winexe /optimize+ /out:vvan-server.exe /r:System.Web.Extensions.dll server.cs` |
 | Референс-макет | `C:\Users\User\Downloads\VVAN - <название>.png`, **1440×4382** |
 
 ---
@@ -142,6 +142,17 @@ vvan/
     **Методика:** диагностика через `_preview.html?w=N` — он пишет в `<title>`
     `clientW/scrollW/ovfX/titleRight/fs` + список `CLIPPED[...]`, а `msedge --dump-dom`
     этот title отдаёт (headless не даёт выполнить свой JS, но читает чужой DOM после load).
+13. **PowerShell-процессы в этой среде убивают через 2–5 минут** — погибли 3 фоновых shell-а
+    и detached-процесс, запущенный через WMI (вне дерева агента): всегда exit 255, в журнале
+    только баннер, `finally` не отрабатывает. Тест с `cmd/ping` оказался некорректным
+    (он отработал свою норму 7 мин — не доказательство). Решение — **нативный `vvan-server.exe`**
+    (`server.cs`, собран `csc` /target:winexe): живёт, пишет heartbeat в `logs/server-heartbeat.log`
+    каждые 60 с (меток нет = убили), PID в `logs/server.pid`, диагностика в `logs/server-console.log`.
+    Сверено: статика 200, HEAD 200, 404, 405, 400 на битый JSON, **POST валидной формы → 200**.
+14. **`Invoke-WebRequest -Body $строка` шлёт НЕ в UTF-8** → в логе заявки оказались `????`,
+    хотя сервер записал всё верно (кодек клиента, не сервера). Проверять/отправлять надо так:
+    `-Body ([Text.Encoding]::UTF8.GetBytes($json)) -ContentType "application/json; charset=utf-8"`.
+    Симптом легко спутать с поломкой кодировки сервера.
 
 ---
 
