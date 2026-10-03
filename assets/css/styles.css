@@ -929,6 +929,11 @@ hr{border:0;margin:0}
   .tag__n{margin-right:14px}
   .hero__inner{padding-top:20px;padding-bottom:32px}
   .hero__bottom{flex-direction:column;align-items:flex-start;gap:24px}
+  /* «СОВРЕМЕННАЯ» при 38px шире экрана: строка = 10.13em → titleRight 405 при 100vw=390/375/360/320,
+     и .hero{overflow:hidden} её срезал (правые ~15px пропадали, горизонтального скролла не было —
+     из-за чего баг был незаметен в ovfX). Ужимаем ровно настолько, чтобы строка влезла
+     в 100vw минус 40px отступа и запас 8px. На десктопе min(38px, …) даёт прежние 38px+. */
+  .hero__title{font-size:min(38px,calc((100vw - 48px) / 10.13))}
   .service{flex-wrap:wrap;gap:14px 18px;padding:22px 0}
   .service__num{width:24px}
   .service__main{flex:1 1 100%;order:2;width:100%}

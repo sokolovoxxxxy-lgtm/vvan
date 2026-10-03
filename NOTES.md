@@ -121,6 +121,27 @@ vvan/
     `Where CommandLine -like "*server.ps1*"` убил собственную консоль (255) вместе с сервером.
     Корректно: исключить `$PID` и матчить `"-File"` + имя скрипта.
     Порт 8080 при этом слушает **HTTP.sys (PID 4)** — PID искать по командной строке, не по порту.
+11. **Клик по слайдеру «не работал»: обработчик висел на `#heroMedia`, но поверх фото лежат
+    `.hero__shade` и `.hero__inner` (`pointer-events:auto`)** — `elementFromPoint(720,300)`
+    возвращал `DIV.hero__inner`, клик до медиа не доходил. Лечено: обработчик на весь `.hero`
+    (всплытие), `.hero__shade{pointer-events:none}`, `cursor:pointer` на `.hero`.
+    **Важно:** `el.click()` и `dispatchEvent` ОБХОДЯТ hit-test — они «работали» в тестах,
+    хотя в жизни клик не доходил. Проверять всегда через
+    `document.elementFromPoint(x,y)` → dispatch именно на этот элемент с `bubbles:true`.
+    Ещё ловушка теста: клик по ссылке услуги ставит `#booking`, страница уезжает на 3298px,
+    и `scrollTo(0,0)` не дочитывается из-за `scroll-behavior:smooth` → сначала
+    `history.replaceState` без hash и `scrollBehavior='auto'`.
+12. **Заголовок героя на телефонах обрезался справа — и это было НЕВИДИМО в `ovfX`.**
+    `clamp(38px,6vw,87px)` на 390/360/320 даёт 38px (минимум clamp), строка «СОВРЕМЕННАЯ»
+    = 10.13em = 385px, `titleRight=405` при экране 390 → её резал `.hero{overflow:hidden}`,
+    а `scrollWidth === clientWidth` (ovfX=0), потому что overflow:hidden не создаёт скролл.
+    Пиксельный замер скриншота: белые пиксели x 22..**389** (упирались в край).
+    Лечено в `@media(max-width:640px)`:
+    `.hero__title{font-size:min(38px,calc((100vw - 48px)/10.13))}` → на 390 стало 33.76px,
+    titleRight 362 (запас 13px), обрезки нет; десктоп не тронут (86.4px).
+    **Методика:** диагностика через `_preview.html?w=N` — он пишет в `<title>`
+    `clientW/scrollW/ovfX/titleRight/fs` + список `CLIPPED[...]`, а `msedge --dump-dom`
+    этот title отдаёт (headless не даёт выполнить свой JS, но читает чужой DOM после load).
 
 ---
 
