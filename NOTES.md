@@ -163,6 +163,14 @@ git push origin main
 - Имя макета в Downloads содержит не-ASCII — выбирать `Get-ChildItem "$env:USERPROFILE\Downloads" -Filter "VVAN*.png"`.
 - Замена в строках PS: `"$i:"` внутри кавычек = ошибка парсера (`InvalidVariableReferenceWithDrive`) → использовать `("...{0}..." -f $i)`.
 - `Invoke-WebRequest` в PS5.1 декодирует UTF-8 как Latin-1 → для проверки меты: `[Text.Encoding]::UTF8.GetString($r.RawContentStream.ToArray())`.
+- **Фоновые `shell`-команды агента убиваются снаружи** — exit 255, в журнале только баннер,
+  `finally` не отрабатывает (видимо, при завершении хода). Долгоживущий dev-сервер запускать
+  **detached, вне дерева процессов агента**, через WMI:
+  `Invoke-CimMethod -ClassName Win32_Process -MethodName Create -Arguments @{ CommandLine = 'powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "..." -Port 8080' }`
+  → PID сохраняется в `logs/server.pid`, стоп: `Stop-Process -Id (Get-Content logs/server.pid)`.
+  У detached-процесса нет консоли, поэтому вся диагностика дублируется в `logs/server-console.log`
+  (функция `Log` в `server.ps1`: пишет и в файл, и в консоль). Вкладка браузера на
+  `localhost:8080` при этом переживает завершение хода.
 
 ---
 

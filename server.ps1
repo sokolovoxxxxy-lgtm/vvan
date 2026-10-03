@@ -2,13 +2,27 @@
   VVAN — локальный dev-сервер + mock API /api/booking
   Запуск:  powershell -ExecutionPolicy Bypass -File .\server.ps1
   Открой:  http://localhost:8080
-  Логи:    logs/booking-YYYY-MM-DD.log
+  Логи:    logs/booking-YYYY-MM-DD.log   (заявки)
+           logs/server-console.log       (диагностика сервера)
   Telegram: переменные TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID в файле .env
 #>
 param([int]$Port = 8080)
 
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+# ---------- лог диагностики ----------
+# пишем и в файл, и в консоль: при запуске "в detached" консоли нет,
+# и падение иначе остаётся без единой строки
+$consoleLog = Join-Path (Join-Path $root "logs") "server-console.log"
+function Log([string]$m) {
+  try {
+    $dir = Split-Path -Parent $consoleLog
+    if (-not (Test-Path $dir)) { New-Item -ItemType Directory -Path $dir | Out-Null }
+    Add-Content -Path $consoleLog -Value ((Get-Date -Format "yyyy-MM-dd HH:mm:ss") + " " + $m) -Encoding UTF8
+  } catch {}
+  Write-Host $m
+}
 
 # ---------- .env ----------
 $envFile = Join-Path $root ".env"
@@ -56,7 +70,7 @@ function Send-Telegram([string]$text) {
       -ContentType "application/json; charset=utf-8" -Body ([Text.Encoding]::UTF8.GetBytes($body)) -TimeoutSec 15 | Out-Null
     return $true
   } catch {
-    Write-Host "[telegram] ошибка: $($_.Exception.Message)"
+    Log ("[telegram] " + $_.Exception.Message)
     return $false
   }
 }
@@ -64,7 +78,7 @@ function Send-Telegram([string]$text) {
 $listener = New-Object System.Net.HttpListener
 $listener.Prefixes.Add("http://localhost:$Port/")
 $listener.Start()
-Write-Host "VVAN dev-server: http://localhost:$Port  (стоп — Ctrl+C)"
+Log "VVAN dev-server: http://localhost:$Port  (стоп — Ctrl+C)"
 
 try {
   while ($listener.IsListening) {
@@ -92,7 +106,7 @@ try {
           $logDir = Join-Path $root "logs"
           if (-not (Test-Path $logDir)) { New-Item -ItemType Directory -Path $logDir | Out-Null }
           Add-Content -Path (Join-Path $logDir ("booking-" + (Get-Date -Format "yyyy-MM-dd") + ".log")) -Value $line -Encoding UTF8
-          Write-Host "[booking] $line"
+          Log "[booking] $line"
 
           $tg = $false
           if ($token -and $chatId) {
@@ -136,7 +150,7 @@ try {
         }
       }
     } catch {
-      Write-Host "[error] $($_.Exception.Message)"
+      Log "[error] $($_.Exception.Message)"
       try { $res.StatusCode = 500 } catch {}
     } finally {
       $res.Close()
@@ -144,11 +158,11 @@ try {
   }
 } catch {
   # диагностика: без этого блока падение сервера происходило молча (только баннер в журнале)
-  Write-Host ("[fatal] " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss") + " " + $_.Exception.GetType().FullName + ": " + $_.Exception.Message)
-  try { Write-Host ("[fatal] pos: " + $_.InvocationInfo.PositionMessage) } catch {}
+  Log ("[fatal] " + $_.Exception.GetType().FullName + ": " + $_.Exception.Message)
+  try { Log ("[fatal] pos: " + $_.InvocationInfo.PositionMessage) } catch {}
   exit 3
 } finally {
-  Write-Host ("[server] stopped " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
+  Log ("[server] stopped " + (Get-Date -Format "yyyy-MM-dd HH:mm:ss"))
   $listener.Stop()
   $listener.Close()
 }
